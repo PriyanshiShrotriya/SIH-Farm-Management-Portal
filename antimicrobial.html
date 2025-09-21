@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MRL Certificate Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      max-width: 700px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn {
+      padding: 0.8rem 1.2rem;
+      margin-top: 1rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      background: #5a67d8;
+    }
+    .certificate {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 2px solid #27ae60;
+      border-radius: 8px;
+      background: rgba(39,174,96,0.05);
+      text-align: left;
+      display: none;
+    }
+    .good {
+      color: #27ae60;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>MRL Monitoring & Certification</h1>
+    <p>Upload an MRL report (PDF). The certificate or red page will be shown depending on the file name.</p>
+    <input type="file" id="fileInput" accept="application/pdf" class="btn" />
+
+    <div class="certificate" id="certificate">
+      <h2>Certificate of Compliance</h2>
+      <p>This is to certify that the tested product has been analyzed for antimicrobial residues.</p>
+      <p class="good">No residues above Maximum Residue Limits (MRLs) were detected.</p>
+      <p>Therefore, this product is declared <strong>FIT FOR HUMAN CONSUMPTION</strong>.</p>
+      <p>Verified and approved by third-party accredited laboratories.</p>
+      <p><em>Date Issued: <span id="certDate"></span></em></p>
+    </div>
+  </div>
+
+  <script>
+    const fileInput = document.getElementById("fileInput");
+    const certDiv = document.getElementById("certificate");
+    const certDate = document.getElementById("certDate");
+
+    fileInput.addEventListener("change", function() {
+      if (this.files && this.files.length > 0) {
+        const fileName = this.files[0].name.toLowerCase();
+        certDiv.style.display = "none";
+
+        if (fileName.includes("report") && !fileName.includes("mrl_report")) {
+          // Show green certificate
+          setTimeout(() => {
+            certDate.textContent = new Date().toLocaleDateString();
+            certDiv.style.display = "block";
+          }, 1000);
+        } else if (fileName.includes("mrl_report")) {
+          // Open red.html page instead of showing report
+          window.location.href = "red.html";
+        }
+      }
+    });
+  </script>
+</body>
+</html>

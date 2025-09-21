@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmSafe Portal - MRL & AMU Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c5530, #4a7c59);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .language-btn, .login-btn {
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .language-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .language-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .login-btn {
+            background: white;
+            color: #2c5530;
+            font-weight: 600;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #f1f8e9, #c8e6c9);
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-content h2 {
+            font-size: 2.5rem;
+            color: #2c5530;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 2rem;
+        }
+
+        /* Image Slider Styles */
+        .hero-image {
+            position: relative;
+            text-align: center;
+        }
+
+        .image-slider {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideOut 0.6s ease-in-out forwards;
+        }
+
+        .slide:first-child {
+            opacity: 1;
+            transform: translateX(0);
+            animation: slideIn 0.6s ease-in-out forwards;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+        }
+
+        /* Pure CSS Animation for slides */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+
+        /* Auto-sliding animation */
+        .image-slider:hover .slide {
+            animation-play-state: paused;
+        }
+
+        .slide:nth-child(1) {
+            animation: slideShow1 15s infinite;
+        }
+
+        .slide:nth-child(2) {
+            animation: slideShow2 15s infinite;
+        }
+
+        .slide:nth-child(3) {
+            animation: slideShow3 15s infinite;
+        }
+
+        @keyframes slideShow1 {
+            0% { opacity: 1; transform: translateX(0); }
+            30% { opacity: 1; transform: translateX(0); }
+            35% { opacity: 0; transform: translateX(-100%); }
+            65% { opacity: 0; transform: translateX(100%); }
+            70% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideShow2 {
+            0% { opacity: 0; transform: translateX(100%); }
+            30% { opacity: 0; transform: translateX(100%); }
+            35% { opacity: 1; transform: translateX(0); }
+            65% { opacity: 1; transform: translateX(0); }
+            70% { opacity: 0; transform: translateX(-100%); }
+            100% { opacity: 0; transform: translateX(100%); }
+        }
+
+        @keyframes slideShow3 {
+            0% { opacity: 0; transform: translateX(100%); }
+            65% { opacity: 0; transform: translateX(100%); }
+            70% { opacity: 1; transform: translateX(0); }
+            95% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(-100%); }
+        }
+
+        /* Slider Navigation */
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(44, 85, 48, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .slider-dot:first-child {
+            background: #2c5530;
+            transform: scale(1.2);
+            animation: dotActive 15s infinite;
+        }
+
+        .slider-dot:nth-child(2) {
+            animation: dotActive2 15s infinite;
+        }
+
+        .slider-dot:nth-child(3) {
+            animation: dotActive3 15s infinite;
+        }
+
+        @keyframes dotActive {
+            0% { background: #2c5530; transform: scale(1.2); }
+            30% { background: #2c5530; transform: scale(1.2); }
+            35% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            65% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            70% { background: #2c5530; transform: scale(1.2); }
+            100% { background: #2c5530; transform: scale(1.2); }
+        }
+
+        @keyframes dotActive2 {
+            0% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            30% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            35% { background: #2c5530; transform: scale(1.2); }
+            65% { background: #2c5530; transform: scale(1.2); }
+            70% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            100% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+        }
+
+        @keyframes dotActive3 {
+            0% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            65% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+            70% { background: #2c5530; transform: scale(1.2); }
+            95% { background: #2c5530; transform: scale(1.2); }
+            100% { background: rgba(44, 85, 48, 0.4); transform: scale(1); }
+        }
+
+        .alert {
+            background: linear-gradient(90deg, #ff9800, #f57c00);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255,152,0,0.3);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76,175,80,0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4caf50;
+            border: 2px solid #4caf50;
+        }
+
+        .btn-secondary:hover {
+            background: #4caf50;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .features h3 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #2c5530;
+            margin-bottom: 50px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h4 {
+            color: #2c5530;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .dashboard-preview {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #f1f8e9, #e8f5e8);
+        }
+
+        .dashboard-preview h3 {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #2c5530;
+            margin-bottom: 50px;
+        }
+
+        .dashboard-mockup {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .quick-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76,175,80,0.4);
+        }
+
+        .footer {
+            background: #2c5530;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .image-slider {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <div class="logo-icon">🌱</div>
+                <h1>FarmSafe Portal</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="features.html">Features</a></li>
+                <li><a href="About.html">About</a></li>
+                <li><a href="Support.html">Support</a></li>
+                <li><a href="https://www.agriwelfare.gov.in/" target="_blank">Resources</a></li>
+            </ul>
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button class="language-btn">🌐 हिंदी</button>
+                <a href="register.html" class="login-btn">Login / Register</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h2>Smart MRL & AMU Management</h2>
+                    <p>Streamline your Maximum Residue Levels and Antimicrobial Use tracking with our comprehensive farmer-focused portal. Ensure compliance, protect food safety, and optimize your farm operations.</p>
+                    
+                    <div class="alert">
+                        ⚠ New EU regulations on antimicrobial use in livestock take effect this year - Stay compliant!
+                    </div>
+
+                    <div class="cta-buttons">
+                        <a href="#trial" class="btn-primary">Start Free Trial</a>
+                        <a href="#demo" class="btn-secondary">Watch Demo</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-slider">
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=500&h=350&fit=crop&crop=faces" alt="Indian farmer working in field" />
+                        </div>
+                        <div class="slide">
+                            <img src="heroimage2.jpg" alt="Farm management technology" />
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=500&h=350&fit=crop&crop=faces" alt="Livestock management" />
+                        </div>
+                    </div>
+                    
+                    <div class="slider-nav">
+                        <div class="slider-dot"></div>
+                        <div class="slider-dot"></div>
+                        <div class="slider-dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h3>Powerful Tools for Modern Farmers</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🧪</div>
+                        <h4>MRL Monitoring</h4>
+                        <p>Real-time tracking of Maximum Residue Levels across all your crops and livestock. Get alerts before limits are exceeded and maintain detailed compliance records.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💊</div>
+                        <h4>AMU Management</h4>
+                        <p>Comprehensive Antimicrobial Use tracking with automated withdrawal period calculations, dosage monitoring, and veterinary prescription management.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h4>Analytics Dashboard</h4>
+                        <p>Visual insights into your farm's chemical usage patterns, compliance status, and optimization opportunities with customizable reporting tools.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔔</div>
+                        <h4>Smart Alerts</h4>
+                        <p>Proactive notifications for withdrawal periods, upcoming inspections, expiring chemicals, and regulatory changes that affect your operations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4>Mobile Access</h4>
+                        <p>Full-featured mobile app for field data entry, barcode scanning, and real-time access to all your farm management data wherever you are.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🐄</div>
+                        <h4>Breed Recognition</h4>
+                        <p>Breed recognition can be automated through photos or videos, making it faster, more reliable, and useful for large-scale farm management systems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="dashboard-preview">
+            <div class="container">
+                <h3>Your Farm Command Center</h3>
+                <div class="dashboard-mockup">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">Active Animals: 247</div>
+                            <div class="stat-label">Under Monitoring</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">MRL Status: 98%</div>
+                            <div class="stat-label">Compliant</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">Alerts: 3</div>
+                            <div class="stat-label">Pending Actions</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">Withdrawals: 12</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-actions">
+                        <button class="action-btn">Record Treatment</button>
+                        <button class="action-btn">Check Withdrawal</button>
+                        <button class="action-btn">Scan Product</button>
+                        <button class="action-btn">Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 FarmSafe Portal. Empowering sustainable agriculture through smart compliance management.</p>
+            <p>🌱 Protecting food safety • Ensuring compliance • Supporting farmers</p>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const langBtn = document.querySelector(".language-btn");
+        let currentLang = "en";
+
+        // Example translations (you can expand this for full site)
+        const translations = {
+            en: {
+                heroTitle: "Smart MRL & AMU Management",
+                heroText: "Streamline your Maximum Residue Levels and Antimicrobial Use tracking with our comprehensive farmer-focused portal. Ensure compliance, protect food safety, and optimize your farm operations.",
+                alert: "⚠ New EU regulations on antimicrobial use in livestock take effect this year - Stay compliant!",
+                trialBtn: "Start Free Trial",
+                demoBtn: "Watch Demo"
+            },
+            hi: {
+                heroTitle: "स्मार्ट MRL और AMU प्रबंधन",
+                heroText: "अपने अधिकतम अवशेष स्तर और एंटीमाइक्रोबियल उपयोग को हमारे व्यापक किसान-केंद्रित पोर्टल के साथ ट्रैक करें। अनुपालन सुनिश्चित करें, खाद्य सुरक्षा की रक्षा करें और अपने कृषि संचालन का अनुकूलन करें।",
+                alert: "⚠ इस वर्ष पशुधन में एंटीमाइक्रोबियल उपयोग पर नए EU नियम लागू हो रहे हैं - अनुपालन करें!",
+                trialBtn: "नि:शुल्क ट्रायल शुरू करें",
+                demoBtn: "डेमो देखें"
+            }
+        };
+
+        langBtn.addEventListener("click", () => {
+            currentLang = currentLang === "en" ? "hi" : "en";
+
+            // Update button text
+            langBtn.textContent = currentLang === "en" ? "🌐 हिंदी" : "🌐 English";
+
+            // Apply translations
+            document.querySelector(".hero-content h2").textContent = translations[currentLang].heroTitle;
+            document.querySelector(".hero-content p").textContent = translations[currentLang].heroText;
+            document.querySelector(".alert").textContent = translations[currentLang].alert;
+            document.querySelector(".btn-primary").textContent = translations[currentLang].trialBtn;
+            document.querySelector(".btn-secondary").textContent = translations[currentLang].demoBtn;
+        });
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    let currentLang = "en-IN"; 
+    let volume = 1; 
+    let rate = 1;   
+    let isMuted = false; 
+
+    // 🗣 Speak Function
+    function speakText(text) {
+        if (!text.trim() || isMuted) return; 
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentLang;
+        utterance.volume = volume;
+        utterance.rate = rate;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // 🎯 Click-to-Read on Text
+    document.querySelectorAll("h1, h2, h3, h4, h5, h6, p, span, a, button, li, td, th")
+        .forEach(el => {
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (e) => {
+                e.stopPropagation(); 
+                speakText(el.innerText || el.textContent);
+            });
+        });
+
+    // 💬 Floating Button (Mute/Unmute + Panel Toggle)
+    const chatBtn = document.createElement("div");
+    chatBtn.innerHTML = "🔊";
+    chatBtn.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #4caf50;
+        color: white;
+        font-size: 24px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        transition: transform 0.2s;
+        z-index: 9999;
+    `;
+    document.body.appendChild(chatBtn);
+
+    // ⚙️ Settings Panel
+    const panel = document.createElement("div");
+    panel.innerHTML = `
+        <h4 style="margin:0 0 10px 0;">🔊 Voice Settings</h4>
+        <label>Language: 
+            <select id="langSelect">
+                <option value="en-IN">English (India)</option>
+                <option value="en-US">English (US)</option>
+                <option value="hi-IN">Hindi</option>
+            </select>
+        </label><br><br>
+        <label>Volume: 
+            <input type="range" id="volControl" min="0" max="1" step="0.1" value="1">
+        </label><br><br>
+        <label>Speed: 
+            <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="1">
+        </label>
+    `;
+    panel.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        background: #fff;
+        border: 2px solid #4caf50;
+        border-radius: 12px;
+        padding: 15px;
+        width: 240px;
+        font-family: sans-serif;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 9999;
+    `;
+    document.body.appendChild(panel);
+
+    // 🎛 Controls
+    document.getElementById("langSelect").addEventListener("change", e => {
+        currentLang = e.target.value;
+    });
+    document.getElementById("volControl").addEventListener("input", e => {
+        volume = parseFloat(e.target.value);
+    });
+    document.getElementById("rateControl").addEventListener("input", e => {
+        rate = parseFloat(e.target.value);
+    });
+
+    // 💬 Button Action: Toggle Mute/Unmute + Show Panel
+    chatBtn.addEventListener("click", () => {
+        isMuted = !isMuted;
+        window.speechSynthesis.cancel(); 
+
+        if (isMuted) {
+            chatBtn.innerHTML = "🔇"; 
+            panel.style.display = "none"; // hide panel when muted
+            chatBtn.style.background = "#f44336"; // red mute
+        } else {
+            chatBtn.innerHTML = "🔊"; 
+            panel.style.display = "block"; // show panel when unmuted
+            chatBtn.style.background = "#4caf50"; // green active
+        }
+    });
+});
+</script>
+
+</body>
+</html>

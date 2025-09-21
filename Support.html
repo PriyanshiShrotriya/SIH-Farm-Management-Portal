@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FarmSafe Portal - Support</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #F1F8E9; /* light green background */
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: #2E7D32; /* dark green */
+      padding: 15px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    .logo span { margin-left: 8px; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover { color: #C8E6C9; }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      border: 1px solid white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+    }
+    .back-btn:hover { background: rgba(255, 255, 255, 0.3); }
+
+    .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      padding: 60px 20px;
+      background: #A5D6A7; /* lighter green block */
+      border-radius: 20px;
+      margin-bottom: 40px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+    .hero-section h1 {
+      font-size: 3rem;
+      color: #1B5E20; /* deep green text */
+      margin-bottom: 20px;
+    }
+    .hero-section p {
+      font-size: 1.2rem;
+      color: #2E7D32;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* Sections */
+    .content-section {
+      background: white;
+      border-radius: 15px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #2E7D32;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #81C784;
+      padding-bottom: 10px;
+      display: inline-block;
+    }
+
+    /* Quick Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+    }
+    .contact-card {
+      background: #388E3C;
+      color: white;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .contact-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+    .contact-card h3 { margin-bottom: 10px; }
+    .contact-card p { font-size: 1rem; }
+
+    .contact-card.emergency { background: #D32F2F; } /* red for emergency */
+    .contact-card.email { background: #1976D2; } /* blue for email */
+    .contact-card.chat { background: #43A047; } /* green for chat */
+
+    /* Resources */
+    .resources-list {
+      display: grid;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .resource-card {
+      background: #f9f9fb;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 5px solid #2E7D32;
+      transition: transform 0.3s ease;
+    }
+    .resource-card:hover {
+      transform: translateX(10px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    /* FAQ */
+    .faq-item { margin-bottom: 15px; border-radius: 10px; overflow: hidden; }
+    .faq-question {
+      background: #388E3C;
+      color: white;
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .faq-answer {
+      padding: 20px;
+      display: none;
+      background: #F1F8E9;
+      color: #333;
+    }
+
+    /* Form */
+    .contact-form { display: grid; gap: 15px; margin-top: 20px; }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+    }
+    .submit-btn {
+      background: #2E7D32;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+    .submit-btn:hover {
+      background: #1B5E20;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">🌱 <span>FarmSafe Portal</span></div>
+    <nav>
+      <ul>
+        <li><a href="features.html">Features</a></li>
+        <li><a href="About.html">About</a></li>
+        <li><a href="Support.html">Support</a></li>
+        <li><a href="https://www.agriwelfare.gov.in/" target="_blank">Resources</a></li>
+      </ul>
+    </nav>
+    <a href="index.html" class="back-btn">← Back to Home</a>
+  </header>
+
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero-section">
+      <h1>Support & Assistance</h1>
+      <p>Need help? Our support team and resources are here to guide you through MRL and AMU management.</p>
+    </div>
+
+    <!-- Quick Contact -->
+    <div class="content-section">
+      <h2 class="section-title">Quick Contact</h2>
+      <div class="contact-grid">
+        <div class="contact-card emergency">
+          <h3>🚨 Emergency Helpline</h3>
+          <p>Call: +91 98765 43210</p>
+        </div>
+        <div class="contact-card email">
+          <h3>📧 Email Support</h3>
+          <p>support@farmsafe.com</p>
+        </div>
+        <div class="contact-card chat">
+          <h3>💬 Live Chat</h3>
+          <p>Chat with our experts instantly</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resources -->
+    <div class="content-section">
+      <h2 class="section-title">Resources</h2>
+      <div class="resources-list">
+        <div class="resource-card">
+          <h3>📘 User Guide</h3>
+          <p>Step-by-step instructions to get started with FarmSafe Portal.</p>
+        </div>
+        <div class="resource-card">
+          <h3>🎥 Video Tutorials</h3>
+          <p>Watch quick tutorials for MRL monitoring and AMU optimization.</p>
+        </div>
+        <div class="resource-card">
+          <h3>❓ FAQs</h3>
+          <p>Find answers to the most commonly asked questions.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="content-section">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-item">
+        <div class="faq-question">What is FarmSafe Portal? <span>+</span></div>
+        <div class="faq-answer">FarmSafe Portal is a digital platform for monitoring Maximum Residue Limits (MRL) and Antimicrobial Usage (AMU) in livestock.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-question">How can I track MRL compliance? <span>+</span></div>
+        <div class="faq-answer">You can use our MRL Monitoring tool that provides real-time tracking and automated alerts.</div>
+      </div>
+    </div>
+
+    <!-- Contact Form -->
+    <div class="content-section">
+      <h2 class="section-title">Contact Us</h2>
+      <form class="contact-form">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <textarea rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // FAQ Toggle
+    document.querySelectorAll(".faq-question").forEach(q => {
+      q.addEventListener("click", () => {
+        const answer = q.nextElementSibling;
+        const isOpen = answer.style.display === "block";
+        document.querySelectorAll(".faq-answer").forEach(a => a.style.display = "none");
+        document.querySelectorAll(".faq-question span").forEach(s => s.textContent = "+");
+        if (!isOpen) {
+          answer.style.display = "block";
+          q.querySelector("span").textContent = "−";
+        }
+      });
+    });
+  </script>
+      <script>
+document.addEventListener("DOMContentLoaded", function () {
+    let currentLang = "en-IN"; 
+    let volume = 1; 
+    let rate = 1;   
+    let isMuted = false; 
+
+    // 🗣 Speak Function
+    function speakText(text) {
+        if (!text.trim() || isMuted) return; 
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = currentLang;
+        utterance.volume = volume;
+        utterance.rate = rate;
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // 🎯 Click-to-Read on Text
+    document.querySelectorAll("h1, h2, h3, h4, h5, h6, p, span, a, button, li, td, th")
+        .forEach(el => {
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (e) => {
+                e.stopPropagation(); 
+                speakText(el.innerText || el.textContent);
+            });
+        });
+
+    // 💬 Floating Button (Mute/Unmute + Panel Toggle)
+    const chatBtn = document.createElement("div");
+    chatBtn.innerHTML = "🔊";
+    chatBtn.style.cssText = `
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #4caf50;
+        color: white;
+        font-size: 24px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        transition: transform 0.2s;
+        z-index: 9999;
+    `;
+    document.body.appendChild(chatBtn);
+
+    // ⚙️ Settings Panel
+    const panel = document.createElement("div");
+    panel.innerHTML = `
+        <h4 style="margin:0 0 10px 0;">🔊 Voice Settings</h4>
+        <label>Language: 
+            <select id="langSelect">
+                <option value="en-IN">English (India)</option>
+                <option value="en-US">English (US)</option>
+                <option value="hi-IN">Hindi</option>
+            </select>
+        </label><br><br>
+        <label>Volume: 
+            <input type="range" id="volControl" min="0" max="1" step="0.1" value="1">
+        </label><br><br>
+        <label>Speed: 
+            <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="1">
+        </label>
+    `;
+    panel.style.cssText = `
+        position: fixed;
+        bottom: 100px;
+        right: 20px;
+        background: #fff;
+        border: 2px solid #4caf50;
+        border-radius: 12px;
+        padding: 15px;
+        width: 240px;
+        font-family: sans-serif;
+        font-size: 14px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        display: none;
+        z-index: 9999;
+    `;
+    document.body.appendChild(panel);
+
+    // 🎛 Controls
+    document.getElementById("langSelect").addEventListener("change", e => {
+        currentLang = e.target.value;
+    });
+    document.getElementById("volControl").addEventListener("input", e => {
+        volume = parseFloat(e.target.value);
+    });
+    document.getElementById("rateControl").addEventListener("input", e => {
+        rate = parseFloat(e.target.value);
+    });
+
+    // 💬 Button Action: Toggle Mute/Unmute + Show Panel
+    chatBtn.addEventListener("click", () => {
+        isMuted = !isMuted;
+        window.speechSynthesis.cancel(); 
+
+        if (isMuted) {
+            chatBtn.innerHTML = "🔇"; 
+            panel.style.display = "none"; // hide panel when muted
+            chatBtn.style.background = "#f44336"; // red mute
+        } else {
+            chatBtn.innerHTML = "🔊"; 
+            panel.style.display = "block"; // show panel when unmuted
+            chatBtn.style.background = "#4caf50"; // green active
+        }
+    });
+});
+</script>
+</body>
+</html>
